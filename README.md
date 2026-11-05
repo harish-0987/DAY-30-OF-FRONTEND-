@@ -1,176 +1,117 @@
-# ⚡ Day 28 of Frontend: React Hooks, Event Handling, Lists & Keys, and Forms
+# ⚡ Day 29 of Frontend: API Integration and SPA (Single Page Application)
 
-Welcome to **Day 28 of the 100 Days Frontend Challenge**! Today's project dives deeper into essential React concepts: **React Hooks (`useEffect`)**, **Event Handling**, **Rendering Lists with Keys**, and **Controlled Form Components** with clean, beginner-friendly code.
+Welcome to **Day 29 of the 100 Days Frontend Challenge**! Today's project focuses on two critical pillars of modern web development: **Consuming REST APIs** and understanding **Single Page Application (SPA)** architecture with clean, beginner-friendly code.
 
-🔗 **Repository:** [harish-0987/DAY-28-OF-FRONTEND](https://github.com/harish-0987/DAY-28-OF-FRONTEND)
-
----
-
-## 📌 Core Topics Overview
-
-| No. | Topic | Key Concept | Practical Use Case |
-| :---: | :--- | :--- | :--- |
-| **1** | **React Hooks (`useEffect`)** | Side effects, lifecycle, dependency array | Timers, document title updates, data fetching |
-| **2** | **Event Handling** | Synthetic Events (`onClick`, `onChange`) | Responding to button clicks, keypresses, user input |
-| **3** | **Lists & Keys** | Array `.map()` + unique `key` prop | Rendering dynamic lists, tables, and card collections |
-| **4** | **Forms (Controlled)** | State as single source of truth | Capturing inputs, validating fields, `e.preventDefault()` |
+🔗 **Repository:** [harish-0987/DAY-29-OF-FRONTEND-](https://github.com/harish-0987/DAY-29-OF-FRONTEND-)
 
 ---
 
-## 💻 Essential Concepts & Code Snippets
+## 📌 Part 1: API Integration in the Frontend
 
-### 1. React Hook: `useEffect`
-`useEffect` allows functional components to perform **side effects** (operations outside the normal render flow, like fetching data, timers, or subscribing to events).
+### What is an API?
+An **API (Application Programming Interface)** acts as a messenger between your frontend user interface and backend servers. It allows web applications to request data, authenticate users, and send updates across the network using the HTTP protocol.
 
-#### Dependency Array Rules:
-- `useEffect(() => { ... })`: Runs after **every** render.
-- `useEffect(() => { ... }, [])`: Runs **only once** when component mounts.
-- `useEffect(() => { ... }, [count])`: Runs on mount and whenever `count` changes.
-- Return function: Optional **cleanup** function that runs before unmounting.
+### The 3 Core States of API Calls
+Every robust API integration in frontend development must handle three states:
+1. **Loading State (`isLoading = true`)**: Informing users that data is being fetched (showing skeletons, spinners, or loading messages).
+2. **Success State (`data`)**: Rendering the received JSON data once the response arrives.
+3. **Error State (`error`)**: Catching network failures or HTTP errors (`404`, `500`) and displaying a friendly message.
 
+### Basic Code Examples
+
+#### 1. Fetching Data with `GET` and `async/await`
 ```javascript
-import React, { useState, useEffect } from 'react';
+async function fetchUser() {
+  try {
+    console.log("Loading started... ⏳");
+    const response = await fetch("https://jsonplaceholder.typicode.com/users/1");
 
-function LiveTimer() {
-  const [seconds, setSeconds] = useState(0);
+    if (!response.ok) {
+      throw new Error(`HTTP Error! Status: ${response.status}`);
+    }
 
-  useEffect(() => {
-    // 1. Setup side effect (interval timer)
-    const timerId = setInterval(() => {
-      setSeconds(prev => prev + 1);
-    }, 1000);
+    const userData = await response.json();
+    console.log("Success! Data:", userData);
+    return userData;
+  } catch (error) {
+    console.error("API Fetch Failed:", error.message);
+  } finally {
+    console.log("Loading finished. ✅");
+  }
+}
+```
 
-    // 2. Cleanup side effect when unmounting
-    return () => clearInterval(timerId);
-  }, []); // Empty array = run once on mount
+#### 2. Sending Data with `POST`
+```javascript
+async function createPost(newPost) {
+  try {
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(newPost)
+    });
 
-  return <p>Elapsed Time: {seconds}s</p>;
+    const result = await response.json();
+    console.log("Created successfully:", result);
+    return result;
+  } catch (error) {
+    console.error("POST failed:", error.message);
+  }
 }
 ```
 
 ---
 
-### 2. Event Handling in React
-React events use **camelCase** naming (`onClick`, `onChange`, `onSubmit`) and pass a JavaScript function rather than a string.
+## 📌 Part 2: SPA (Single Page Application) Architecture
+
+### What is an SPA?
+A **Single Page Application (SPA)** is a web application that loads only **one** HTML document (`index.html`). As the user clicks links or navigates, JavaScript dynamically intercepts the navigation and rewrites the DOM content in place, **without refreshing or reloading the entire web page**.
+
+### Client-Side Routing (CSR)
+In traditional websites (MPA), clicking a link requests a completely new HTML file from the server. In an SPA, the browser URL changes using **hash routing** (`#home`, `#products`, `#about`) or the **History API** (`pushState`), while JavaScript renders the matching view in real time.
 
 ```javascript
-function ActionButtons() {
-  // Simple event handler
-  const handleClick = (e) => {
-    console.log("Event type:", e.type);
-  };
+// Minimal Hash Router (Few Lines of Code!)
+const routes = {
+  "#home": "<h2>Home View 🏠</h2><p>Welcome to our SPA!</p>",
+  "#products": "<h2>Products View 🛍️</h2><p>Explore our items.</p>",
+  "#about": "<h2>About View ℹ️</h2><p>Learn more about Day 29.</p>"
+};
 
-  // Handler accepting custom arguments
-  const handleCustomAction = (itemName) => {
-    alert(`Selected: ${itemName}`);
-  };
-
-  return (
-    <div>
-      {/* Passing function reference */}
-      <button onClick={handleClick}>Standard Click</button>
-
-      {/* Passing arguments via arrow function */}
-      <button onClick={() => handleCustomAction("React ⚛️")}>
-        Pass Argument
-      </button>
-    </div>
-  );
+function router() {
+  const hash = window.location.hash || "#home";
+  const viewContent = routes[hash] || "<h2>404 Not Found</h2>";
+  document.getElementById("spa-content").innerHTML = viewContent;
 }
+
+// Listen for hash changes and initial page load
+window.addEventListener("hashchange", router);
+window.addEventListener("DOMContentLoaded", router);
 ```
 
 ---
 
-### 3. Lists and Keys
-In React, lists are rendered by transforming arrays into JSX elements using JavaScript's `.map()` method.
+## 📊 Summary: SPA vs. MPA Comparison
 
-#### Why is `key` essential?
-The `key` prop gives each item a stable identity. During Virtual DOM diffing, keys help React identify which items have changed, been added, or been removed, avoiding expensive full re-renders.
-
-```javascript
-const frameworkList = [
-  { id: "react", name: "React.js", category: "Library" },
-  { id: "vue", name: "Vue.js", category: "Framework" },
-  { id: "next", name: "Next.js", category: "Full-Stack" }
-];
-
-function FrameworkDirectory() {
-  return (
-    <ul>
-      {frameworkList.map(item => (
-        // Always assign a unique key at the outermost mapped element!
-        <li key={item.id}>
-          <strong>{item.name}</strong> - <span>{item.category}</span>
-        </li>
-      ))}
-    </ul>
-  );
-}
-```
-
----
-
-### 4. Controlled Forms & `e.preventDefault()`
-In HTML, form elements manage their own internal state. In React, **Controlled Components** make React state the single source of truth:
-1. `value={stateVariable}`: Sets the input display value from state.
-2. `onChange={(e) => setState(e.target.value)}`: Syncs typing back into state.
-3. `e.preventDefault()`: Prevents browser full-page reload on form submission.
-
-```javascript
-import React, { useState } from 'react';
-
-function SimpleContactForm() {
-  const [formData, setFormData] = useState({ name: '', email: '' });
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault(); // Stop default browser reload
-    alert(`Submitted Name: ${formData.name}, Email: ${formData.email}`);
-  };
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <input 
-        name="name" 
-        value={formData.name} 
-        onChange={handleChange} 
-        placeholder="Enter your name" 
-      />
-      <input 
-        name="email" 
-        value={formData.email} 
-        onChange={handleChange} 
-        placeholder="Enter your email" 
-      />
-      <button type="submit">Submit Form</button>
-    </form>
-  );
-}
-```
-
----
-
-## 📊 Summary Comparison
-
-| Concept | Key Syntax | Purpose | Best Practice |
-| :--- | :--- | :--- | :--- |
-| **`useEffect`** | `useEffect(fn, [deps])` | Side effects & lifecycle | Always specify correct dependencies; include cleanup for timers |
-| **Event Handling** | `onClick={(e) => fn(e)}` | Interactivity | Use arrow functions to pass arguments cleanly |
-| **Lists & Keys** | `{items.map(i => <el key={i.id} />)}` | Dynamic rendering | Always use stable, unique IDs as keys (avoid array index when items can reorder) |
-| **Controlled Form** | `value={state} onChange={fn}` | Form management | Prevent reload with `e.preventDefault()`, store state in React |
+| Feature | Single Page Application (SPA) | Multi-Page Application (MPA) |
+| :--- | :--- | :--- |
+| **Page Reloads** | ❌ None (Smooth, zero reloads) | ✅ Yes (Full page reload on every link) |
+| **User Experience** | Fluid, app-like, fast transitions | Slower page transitions |
+| **Routing** | Client-Side Routing (JavaScript) | Server-Side Routing |
+| **Data Transfer** | Small JSON payloads via APIs | Entire HTML, CSS, and JS re-downloaded |
+| **Popular Frameworks** | React, Next.js, Vue, Angular | Traditional WordPress, PHP, Django |
 
 ---
 
 ## 🚀 Interactive Features Included in This Project
 
-- **Hook Simulator (`useEffect`):** Interactive timer and document title updater demonstrating mount, dependency triggers, and cleanup.
-- **Event Explorer:** Live testing of `onClick`, custom argument passing, and synthetic event object inspection.
-- **Interactive List Studio:** Add, remove, and filter list items dynamically with visual `key` identifiers highlighted.
-- **Controlled Form Playground:** Real-time dual-binding input fields with live JSON state preview and submit validation.
-- **Combined Task Manager:** Live mini-app demonstrating all four concepts working together in harmony.
+- **Live API Fetcher (GET):** Fetches real-time sample user data with live loading spinner and status feedback.
+- **API Creator (POST):** Sends custom user-entered titles/body to a REST endpoint and displays status `201 Created`.
+- **Error Boundary Tester:** Intentionally triggers a 404 endpoint to demonstrate clean `try/catch` error state UI.
+- **Client-Side SPA Hash Router:** Fully functioning multi-view SPA navigation (`Home`, `Products`, `About`, `Contact`) with zero page reloads.
+- **SPA Performance Monitor:** Real-time page reload counter proving the browser never reloads during navigation.
 
 ---
 
@@ -178,11 +119,11 @@ function SimpleContactForm() {
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/harish-0987/DAY-28-OF-FRONTEND.git
+   git clone https://github.com/harish-0987/DAY-29-OF-FRONTEND-.git
    ```
 2. Open the project folder:
    ```bash
-   cd DAY-28-OF-FRONTEND
+   cd DAY-29-OF-FRONTEND-
    ```
 3. Open `index.html` in any modern web browser.
 

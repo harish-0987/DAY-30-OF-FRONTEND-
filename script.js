@@ -1,177 +1,227 @@
 // ======================================================
-// Day 28: React Hooks, Event Handling, Lists & Forms
+// Day 29: API Integration & SPA Architecture (Basic Level)
 // 100 Days Frontend Challenge by Harish (@harish-0987)
 // ======================================================
 
 // ------------------------------------------------------
-// 1. REACT HOOK: useEffect (Lifecycle & Side Effects)
+// 1. API GET REQUEST (Loading, Success & Data States)
 // ------------------------------------------------------
-let timerCount = 0;
-let timerInterval = null;
-let isTimerActive = false;
+async function handleFetchUser() {
+    const output = document.getElementById("api-get-output");
+    const chips = document.getElementById("api-get-chips");
 
-// Simulating useEffect(() => { ... return () => cleanup; }, [])
-function toggleTimerEffect() {
-    const btn = document.getElementById("btn-toggle-effect");
-    const display = document.getElementById("effect-timer-display");
-    const chips = document.getElementById("effect-chips");
-
-    if (!isTimerActive) {
-        // Mount Effect: Set up interval
-        isTimerActive = true;
-        btn.textContent = "Unmount Effect (Cleanup)";
-        btn.className = "btn-warning";
-
-        timerInterval = setInterval(() => {
-            timerCount++;
-            if (display) display.textContent = `${timerCount}s`;
-        }, 1000);
-
-        if (chips) {
-            chips.innerHTML = `
-                <span class="step-chip">useEffect mounted 🟢</span>
-                <span class="step-chip">Dependency: [] (runs on mount)</span>
-            `;
-        }
-    } else {
-        // Cleanup Effect: Clear interval (return () => clearInterval)
-        isTimerActive = false;
-        clearInterval(timerInterval);
-        btn.textContent = "Mount Effect (Start Timer)";
-        btn.className = "";
-
-        if (chips) {
-            chips.innerHTML = `
-                <span class="step-chip">Cleanup executed 🛑 (clearInterval)</span>
-                <span class="step-chip">Component unmounted</span>
-            `;
-        }
-    }
-}
-
-function resetTimerEffect() {
-    if (timerInterval) clearInterval(timerInterval);
-    isTimerActive = false;
-    timerCount = 0;
-    const display = document.getElementById("effect-timer-display");
-    const btn = document.getElementById("btn-toggle-effect");
-    if (display) display.textContent = "0s";
-    if (btn) {
-        btn.textContent = "Mount Effect (Start Timer)";
-        btn.className = "";
-    }
-}
-
-// ------------------------------------------------------
-// 2. EVENT HANDLING (Synthetic Events & Arguments)
-// ------------------------------------------------------
-function handleButtonClick(message, event) {
-    const output = document.getElementById("event-result-chips");
-    if (!output) return;
-
-    output.innerHTML = `
-        <span class="step-chip">Message: "${message}"</span>
-        <span class="step-chip">e.type: "${event ? event.type : 'click'}"</span>
-        <span class="step-chip">Syntax: onClick={() => fn(arg)} ✅</span>
-    `;
-}
-
-// ------------------------------------------------------
-// 3. LISTS & KEYS (array.map with unique key prop)
-// ------------------------------------------------------
-let techList = [
-    { id: 101, name: "React.js", category: "Library" },
-    { id: 102, name: "JavaScript", category: "Language" },
-    { id: 103, name: "HTML & CSS", category: "Markup & Styling" }
-];
-let nextId = 104;
-
-function renderKeyedList() {
-    const listContainer = document.getElementById("keyed-list-container");
-    if (!listContainer) return;
-
-    if (techList.length === 0) {
-        listContainer.innerHTML = '<div style="color: #9ca3af; padding: 12px; text-align: center;">List is empty. Add an item below!</div>';
-        return;
-    }
-
-    listContainer.innerHTML = techList.map(item => `
-        <div class="key-list-item" id="item-${item.id}">
-            <div>
-                <span class="key-badge">key="${item.id}"</span>
-                <strong>${item.name}</strong> 
-                <span style="color: #9ca3af; font-size: 0.8rem;">(${item.category})</span>
+    // 1. Loading State
+    if (output) {
+        output.innerHTML = `
+            <div class="spinner-wrap">
+                <div class="spinner"></div>
+                <span style="color: #06b6d4;">Fetching user data from API... (isLoading = true)</span>
             </div>
-            <button class="item-delete-btn" onclick="handleRemoveListItem(${item.id})">Delete ✕</button>
-        </div>
-    `).join("");
-}
-
-function handleAddListItem() {
-    const nameInput = document.getElementById("list-item-name");
-    const catInput = document.getElementById("list-item-category");
-
-    const name = nameInput ? nameInput.value.trim() : "";
-    const category = catInput ? catInput.value.trim() : "";
-
-    if (!name) return;
-
-    techList.push({ id: nextId++, name, category: category || "General" });
-    if (nameInput) nameInput.value = "";
-    renderKeyedList();
-
-    const chips = document.getElementById("list-chips");
-    if (chips) {
-        chips.innerHTML = `
-            <span class="step-chip">Added item with key="${nextId - 1}"</span>
-            <span class="step-chip">Total items: ${techList.length}</span>
         `;
     }
-}
 
-function handleRemoveListItem(id) {
-    techList = techList.filter(item => item.id !== id);
-    renderKeyedList();
+    try {
+        // Attempt network fetch with fallback simulation if offline
+        const response = await fetch("https://jsonplaceholder.typicode.com/users/1");
+        
+        if (!response.ok) {
+            throw new Error(`HTTP Error status: ${response.status}`);
+        }
 
-    const chips = document.getElementById("list-chips");
-    if (chips) {
-        chips.innerHTML = `
-            <span class="step-chip">Removed item key="${id}"</span>
-            <span class="step-chip">React efficiently updates only this DOM node</span>
-        `;
+        const data = await response.json();
+
+        // 2. Success State
+        if (output) {
+            output.innerHTML = `
+                <div style="color: #67e8f9; font-weight: 700; margin-bottom: 4px;">👤 ${data.name} (@${data.username})</div>
+                <div style="color: #9ca3af; font-size: 0.85rem;">Email: ${data.email} | City: ${data.address ? data.address.city : "Internet"}</div>
+                <div style="color: #9ca3af; font-size: 0.85rem;">Company: ${data.company ? data.company.name : "Tech Corp"}</div>
+            `;
+        }
+
+        if (chips) {
+            chips.innerHTML = `
+                <span class="step-chip">Status: 200 OK ✅</span>
+                <span class="step-chip">Method: GET</span>
+                <span class="step-chip">isLoading: false</span>
+            `;
+        }
+    } catch (err) {
+        // Offline / fallback mock data to ensure demo always works
+        const mockData = { id: 1, name: "Harish Kumar", username: "harish-0987", email: "harish@example.com", city: "Bengaluru" };
+        if (output) {
+            output.innerHTML = `
+                <div style="color: #67e8f9; font-weight: 700; margin-bottom: 4px;">👤 ${mockData.name} (@${mockData.username}) [Simulated Data]</div>
+                <div style="color: #9ca3af; font-size: 0.85rem;">Email: ${mockData.email} | City: ${mockData.city}</div>
+            `;
+        }
+        if (chips) {
+            chips.innerHTML = `
+                <span class="step-chip">Network Note: Fallback mock data served</span>
+                <span class="step-chip">Handled gracefully ✅</span>
+            `;
+        }
     }
 }
 
 // ------------------------------------------------------
-// 4. FORMS & CONTROLLED COMPONENTS (value + onChange + e.preventDefault)
+// 2. API POST REQUEST (Sending JSON Payloads)
 // ------------------------------------------------------
-const formState = {
-    username: "Harish",
-    role: "Frontend Developer",
-    email: "harish@example.com"
+async function handleCreatePost(event) {
+    if (event) event.preventDefault();
+
+    const titleInput = document.getElementById("post-title-input");
+    const bodyInput = document.getElementById("post-body-input");
+    const output = document.getElementById("api-post-output");
+    const chips = document.getElementById("api-post-chips");
+
+    const newPost = {
+        title: titleInput ? titleInput.value : "Day 29 of Frontend",
+        body: bodyInput ? bodyInput.value : "Exploring API and SPA architecture!",
+        userId: 1
+    };
+
+    if (output) {
+        output.innerHTML = `
+            <div class="spinner-wrap">
+                <div class="spinner"></div>
+                <span style="color: #06b6d4;">Sending POST request with payload...</span>
+            </div>
+        `;
+    }
+
+    try {
+        const response = await fetch("https://jsonplaceholder.typicode.com/posts", {
+            method: "POST",
+            headers: { "Content-Type": "application/json; charset=UTF-8" },
+            body: JSON.stringify(newPost)
+        });
+
+        const createdData = await response.json();
+
+        if (output) {
+            output.innerHTML = `
+                <pre style="margin: 0;">${JSON.stringify(createdData, null, 2)}</pre>
+            `;
+        }
+
+        if (chips) {
+            chips.innerHTML = `
+                <span class="step-chip">Status: 201 Created 🎉</span>
+                <span class="step-chip">Method: POST</span>
+                <span class="step-chip">Created ID: #${createdData.id || 101}</span>
+            `;
+        }
+    } catch (err) {
+        // Fallback simulation
+        const mockResult = { ...newPost, id: 101, status: "created_offline" };
+        if (output) output.innerHTML = `<pre style="margin: 0;">${JSON.stringify(mockResult, null, 2)}</pre>`;
+        if (chips) chips.innerHTML = `<span class="step-chip">Status: 201 Created (Mock)</span>`;
+    }
+}
+
+// ------------------------------------------------------
+// 3. API ERROR HANDLING (try / catch & Status Validation)
+// ------------------------------------------------------
+async function handleTriggerApiError() {
+    const output = document.getElementById("api-error-output");
+    const chips = document.getElementById("api-error-chips");
+
+    if (output) {
+        output.innerHTML = `
+            <div class="spinner-wrap">
+                <div class="spinner"></div>
+                <span style="color: #ef4444;">Calling non-existent endpoint (404)...</span>
+            </div>
+        `;
+    }
+
+    try {
+        const response = await fetch("https://jsonplaceholder.typicode.com/non-existent-endpoint-404");
+        
+        if (!response.ok) {
+            throw new Error(`Endpoint not found! (HTTP Status ${response.status})`);
+        }
+    } catch (err) {
+        if (output) {
+            output.innerHTML = `
+                <div style="color: #f87171; font-weight: 600;">⚠️ Caught in catch block:</div>
+                <div style="color: #fca5a5; font-size: 0.85rem;">"${err.message}"</div>
+                <div style="color: #9ca3af; font-size: 0.8rem; margin-top: 4px;">User sees friendly error banner rather than a crash.</div>
+            `;
+        }
+
+        if (chips) {
+            chips.innerHTML = `
+                <span class="step-chip" style="border-color: rgba(239, 68, 68, 0.4); color: #fca5a5;">Error caught ✅</span>
+                <span class="step-chip">App stays stable</span>
+            `;
+        }
+    }
+}
+
+// ------------------------------------------------------
+// 4. SPA ARCHITECTURE & CLIENT-SIDE ROUTER
+// ------------------------------------------------------
+let spaNavigationsCount = 0;
+
+// SPA View Templates (Rendered in-memory without page reload)
+const spaViews = {
+    "#home": {
+        title: "🏠 Home Dashboard",
+        content: "Welcome to the SPA! Notice how switching between views updates immediately without flashing or reloading the browser page.",
+        badge: "View: Home"
+    },
+    "#products": {
+        title: "🛍️ Products Catalog",
+        content: "Browse our frontend modules: HTML5, CSS3, Modern JavaScript, React.js, and API Integration.",
+        badge: "View: Products"
+    },
+    "#about": {
+        title: "ℹ️ About Day 29",
+        content: "Day 29 of the 100 Days Frontend Challenge by Harish. Demonstrating Client-Side Routing (CSR) and REST APIs.",
+        badge: "View: About"
+    },
+    "#contact": {
+        title: "📬 Contact & Support",
+        content: "Have questions on SPA or APIs? Open an issue on GitHub or connect with the community!",
+        badge: "View: Contact"
+    }
 };
 
-function handleFormInputChange(fieldName, value) {
-    formState[fieldName] = value;
-    updateFormJSONDisplay();
+function navigateSpa(targetHash) {
+    window.location.hash = targetHash;
 }
 
-function updateFormJSONDisplay() {
-    const preview = document.getElementById("form-state-json");
-    if (preview) {
-        preview.textContent = JSON.stringify(formState, null, 2);
+function handleSpaRouting() {
+    const hash = window.location.hash || "#home";
+    const view = spaViews[hash] || spaViews["#home"];
+
+    // Update canvas
+    const canvas = document.getElementById("spa-view-canvas");
+    if (canvas) {
+        canvas.innerHTML = `
+            <div class="spa-view-title">${view.title}</div>
+            <div class="spa-view-text">${view.content}</div>
+        `;
     }
-}
 
-function handleControlledFormSubmit(event) {
-    if (event) event.preventDefault(); // Stop default browser page reload!
+    // Update active nav button
+    document.querySelectorAll(".spa-nav-btn").forEach(btn => {
+        if (btn.getAttribute("data-hash") === hash) {
+            btn.classList.add("active");
+        } else {
+            btn.classList.remove("active");
+        }
+    });
 
-    const chips = document.getElementById("form-result-chips");
+    spaNavigationsCount++;
+    const chips = document.getElementById("spa-router-chips");
     if (chips) {
         chips.innerHTML = `
-            <span class="step-chip">e.preventDefault() called 🛑</span>
-            <span class="step-chip">Submitted: "${formState.username}" (${formState.role})</span>
-            <span class="step-chip">Single Source of Truth: State ✅</span>
+            <span class="step-chip">Current Hash: ${hash}</span>
+            <span class="step-chip">View Switches: ${spaNavigationsCount}</span>
+            <span class="step-chip" style="color: #6ee7b7; border-color: rgba(16, 185, 129, 0.4);">Page Reloads: 0 ⚡</span>
         `;
     }
 }
@@ -180,7 +230,8 @@ function handleControlledFormSubmit(event) {
 // Initial triggers on DOM load
 // ------------------------------------------------------
 window.addEventListener("DOMContentLoaded", () => {
-    renderKeyedList();
-    updateFormJSONDisplay();
-    handleButtonClick("Initial Mount", null);
+    handleFetchUser();
+    handleSpaRouting();
 });
+
+window.addEventListener("hashchange", handleSpaRouting);
