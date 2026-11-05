@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Day 29 of Frontend: API Integration and SPA (Single Page Application) Architecture (fetch, async/await, loading/error states, hash routing, and client-side rendering).">
+    <meta name="description" content="Day 30 of Frontend: The Grand Finale — JSX, Component Rendering, React Router, and a Complete 30-Day Frontend Mastery Roadmap by Harish.">
     <meta name="author" content="Harish (harish-0987)">
-    <title>Day 29 - API Integration & SPA Architecture | Harish</title>
+    <title>Day 30 - React JSX, Component Rendering, React Router & Full Frontend Roadmap | Harish</title>
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Stylesheet -->
     <link rel="stylesheet" href="style.css">
@@ -18,209 +18,360 @@
 <body>
 
     <div class="container">
-        <!-- Header -->
+        <!-- Grand Finale Header -->
         <header class="header">
-            <div class="badge">Day 29 of 100 Days Frontend</div>
-            <h1>Frontend <span class="highlight">API &amp; SPA</span> Architecture</h1>
-            <p class="subtitle">A clean, beginner-friendly exploration of consuming <strong>REST APIs</strong> with <code>fetch()</code>, managing <strong>Loading &amp; Error states</strong>, and building <strong>Single Page Applications (SPA)</strong> with Client-Side Routing.</p>
+            <div class="badge finale-badge">🏆 Day 30 of 100 Days Frontend • The Grand Finale 🚀</div>
+            <h1>Modern React &amp; <span class="highlight">Frontend Mastery</span> Hub</h1>
+            <p class="subtitle">
+                Mastering <strong>JSX</strong>, <strong>Component Architecture &amp; Rendering</strong>, and <strong>React Router (v6)</strong> — featuring an interactive, full-spectrum <strong>30-Day Frontend Roadmap Atlas</strong> summarizing all critical pillars for developers worldwide.
+            </p>
+
+            <!-- Quick Navigation Jump Bar -->
+            <nav class="quick-nav" aria-label="Quick Navigation">
+                <a href="#card-jsx" class="quick-nav-pill">⚡ 1. JSX Deep Dive</a>
+                <a href="#card-rendering" class="quick-nav-pill">🧩 2. Component Rendering</a>
+                <a href="#card-router" class="quick-nav-pill">🧭 3. React Router v6</a>
+                <a href="#card-atlas" class="quick-nav-pill">🗺️ 4. 30-Day Frontend Atlas</a>
+                <a href="#card-interview" class="quick-nav-pill">🎯 5. Interview Cheat Sheet</a>
+            </nav>
         </header>
 
-        <!-- Interactive Playground Grid -->
+        <!-- Main Interactive Grid -->
         <main class="grid">
 
-            <!-- Card 1: API GET Request -->
-            <section class="card" id="card-api-get">
+            <!-- Card 1: JSX (JavaScript XML) & Expression Deep Dive -->
+            <section class="card" id="card-jsx">
                 <div class="card-header">
                     <div class="card-header-row">
-                        <span class="card-tag">1. API Integration (GET)</span>
-                        <span class="priority-pill">⭐⭐⭐ Priority</span>
+                        <span class="card-tag">1. React JSX Architecture</span>
+                        <span class="priority-pill">⭐⭐⭐ Core React</span>
                     </div>
-                    <h2>Loading &amp; Data States</h2>
+                    <h2>JSX Syntax, Expressions &amp; Virtual DOM Compilation</h2>
                 </div>
-                <p class="card-desc">Fetching asynchronous data from a server using <code>fetch()</code> and <code>async/await</code> while handling loading and response states.</p>
-                
+                <p class="card-desc">
+                    <strong>JSX</strong> is a syntax extension for JavaScript that allows you to write HTML-like markup directly inside JS files. Under the hood, Babel compiles JSX tags into pure <code>React.createElement()</code> function calls.
+                </p>
+
                 <div class="card-body">
-                    <label>Live API Response (JSON):</label>
-                    <div class="data-box" id="api-get-output">Waiting to fetch...</div>
-
-                    <div class="btn-group">
-                        <button onclick="handleFetchUser()">Re-fetch User Data</button>
+                    <!-- Live Interactive Playground Controls -->
+                    <div class="playground-subtitle">Interactive JSX Live Props Editor:</div>
+                    <div class="input-row">
+                        <div class="input-col">
+                            <label for="jsx-user-name">Developer Name</label>
+                            <input type="text" id="jsx-user-name" value="Harish Kumar" oninput="updateJsxDemo()">
+                        </div>
+                        <div class="input-col">
+                            <label for="jsx-user-role">Role</label>
+                            <select id="jsx-user-role" onchange="updateJsxDemo()">
+                                <option value="Frontend Developer">Frontend Developer</option>
+                                <option value="React Engineer">React Engineer</option>
+                                <option value="Full Stack Architect">Full Stack Architect</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div class="result-box chips-wrap" id="api-get-chips">
-                        <span class="step-chip">Ready to fetch</span>
+                    <div class="input-row">
+                        <div class="input-col">
+                            <label>Status &amp; Badges</label>
+                            <div class="btn-group">
+                                <button type="button" id="jsx-status-toggle" class="btn-secondary" onclick="toggleJsxStatus()">Toggle Online: 🟢 Online</button>
+                                <button type="button" class="btn-secondary" onclick="addJsxTag()">+ Add Skill Tag</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rendered Component Output -->
+                    <label>Live Rendered React Component Output:</label>
+                    <div class="data-box" id="jsx-live-render">
+                        <!-- Populated by JS -->
+                    </div>
+
+                    <!-- View Switcher (JSX vs React.createElement) -->
+                    <div class="code-view-switch">
+                        <div class="view-toggle-btns">
+                            <button type="button" class="view-toggle-btn active" id="btn-show-jsx" onclick="switchJsxCodeView('jsx')">JSX Syntax</button>
+                            <button type="button" class="view-toggle-btn" id="btn-show-compiled" onclick="switchJsxCodeView('compiled')">Babel Compiled (React.createElement)</button>
+                        </div>
+                    </div>
+
+                    <!-- Code Preview Container -->
+                    <div class="code-preview" id="jsx-code-container">
+                        <pre><code id="jsx-code-display">// Loading JSX code...</code></pre>
+                    </div>
+
+                    <div class="result-box chips-wrap" id="jsx-chips" style="margin-top: 12px;">
+                        <span class="step-chip">className instead of class</span>
+                        <span class="step-chip">JavaScript in { }</span>
+                        <span class="step-chip">Self-closing tags required</span>
+                        <span class="step-chip">Fragment &lt;&gt;...&lt;/&gt;</span>
                     </div>
                 </div>
 
-                <div class="code-preview">
-<pre><code>async function fetchUser() {
-  const res = await fetch("https://api.example.com/user");
-  const data = await res.json();
-  return data;
-}</code></pre>
+                <div class="code-preview" style="margin-top: 10px;">
+<pre><code>// 5 Golden Rules of JSX:
+1. Return a single parent element (or &lt;&gt;Fragment&lt;/&gt;)
+2. Close all tags explicitly: &lt;img /&gt;, &lt;input /&gt;, &lt;br /&gt;
+3. camelCase attributes: className, htmlFor, tabIndex, onClick
+4. Embed dynamic JS expressions with curly braces: { 2 + 2 } or { user.name }
+5. Use unique 'key' props when rendering lists via array.map()</code></pre>
                 </div>
             </section>
 
-            <!-- Card 2: API POST Request -->
-            <section class="card" id="card-api-post">
+            <!-- Card 2: Rendering Components & Props / State Lab -->
+            <section class="card" id="card-rendering">
                 <div class="card-header">
                     <div class="card-header-row">
-                        <span class="card-tag">2. API Mutation (POST)</span>
-                        <span class="priority-pill">⭐⭐⭐ Priority</span>
+                        <span class="card-tag">2. Component Architecture</span>
+                        <span class="priority-pill">⭐⭐⭐ Core React</span>
                     </div>
-                    <h2>Sending JSON Payloads</h2>
+                    <h2>Functional Components, Props, State &amp; Re-rendering</h2>
                 </div>
-                <p class="card-desc">Transmitting client-side form data to an API endpoint using <code>method: "POST"</code> and JSON serialization.</p>
-                
+                <p class="card-desc">
+                    Components are reusable, self-contained UI building blocks. React functional components accept <strong>Props</strong> (read-only input data) and manage internal <strong>State</strong> (via <code>useState</code>), triggering lightning-fast Virtual DOM reconciliation upon changes.
+                </p>
+
                 <div class="card-body">
-                    <form onsubmit="handleCreatePost(event)">
-                        <div class="input-row">
-                            <div class="input-col">
-                                <label for="post-title-input">Post Title</label>
-                                <input type="text" id="post-title-input" value="Day 29 of Frontend">
-                            </div>
+                    <!-- Interactive Counter & Render Counter -->
+                    <div class="component-mockup">
+                        <div class="component-badge">&lt;CounterComponent /&gt; (Parent: &lt;App /&gt;)</div>
+                        
+                        <div class="counter-display">
+                            <span class="counter-label">Current Count (State):</span>
+                            <span class="counter-number" id="state-counter-val">0</span>
                         </div>
+
+                        <div class="btn-group" style="justify-content: center; margin-top: 10px;">
+                            <button type="button" class="btn-success" onclick="updateCounter(1)">+ Increment</button>
+                            <button type="button" class="btn-danger" onclick="updateCounter(-1)">- Decrement</button>
+                            <button type="button" class="btn-secondary" onclick="resetCounter()">Reset</button>
+                        </div>
+
+                        <div class="render-pulse-box" id="render-pulse-box">
+                            <span class="pulse-indicator"></span>
+                            <span>Virtual DOM Re-render Counter: <strong id="render-count-display">1</strong> cycles</span>
+                        </div>
+                    </div>
+
+                    <!-- Props Customizer -->
+                    <div style="margin-top: 16px;">
+                        <label for="child-prop-input">Pass Prop to Child Component (&lt;Badge text={...} color={...} /&gt;):</label>
                         <div class="input-row">
                             <div class="input-col">
-                                <label for="post-body-input">Post Content</label>
-                                <input type="text" id="post-body-input" value="Exploring API and SPA architecture!">
+                                <input type="text" id="child-prop-input" value="Certified Frontend Developer" oninput="updateChildProps()">
+                            </div>
+                            <div class="input-col">
+                                <select id="child-color-select" onchange="updateChildProps()">
+                                    <option value="cyan">Cyan Theme</option>
+                                    <option value="emerald">Emerald Theme</option>
+                                    <option value="purple">Purple Theme</option>
+                                    <option value="amber">Amber Theme</option>
+                                </select>
                             </div>
                         </div>
 
+                        <!-- Child Component Render Target -->
+                        <div class="child-component-card" id="child-component-target">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+
+                    <!-- Lifecycle Simulator Tabs -->
+                    <div style="margin-top: 16px;">
+                        <label>Component Lifecycle Simulator (useEffect):</label>
                         <div class="btn-group">
-                            <button type="submit">Send POST Request</button>
+                            <button type="button" class="btn-secondary" onclick="simulateLifecycle('mount')">Simulate Mount</button>
+                            <button type="button" class="btn-secondary" onclick="simulateLifecycle('update')">Simulate Update</button>
+                            <button type="button" class="btn-secondary" onclick="simulateLifecycle('unmount')">Simulate Unmount</button>
                         </div>
-                    </form>
-
-                    <label style="margin-top: 8px;">Server Response (Status 201 Created):</label>
-                    <div class="data-box" id="api-post-output">Fill form and click send...</div>
-
-                    <div class="result-box chips-wrap" id="api-post-chips">
-                        <span class="step-chip">Method: POST</span>
-                        <span class="step-chip">Header: application/json</span>
+                        <div class="data-box" id="lifecycle-log" style="font-size: 0.8rem; min-height: 48px;">
+                            [Lifecycle Log]: Ready to observe mounting and side effects.
+                        </div>
                     </div>
                 </div>
 
                 <div class="code-preview">
-<pre><code>await fetch("/posts", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ title, body })
-});</code></pre>
-                </div>
-            </section>
+<pre><code>function CounterCard({ title, badgeText }) {
+  const [count, setCount] = useState(0);
 
-            <!-- Card 3: API Error Handling -->
-            <section class="card" id="card-api-error">
-                <div class="card-header">
-                    <div class="card-header-row">
-                        <span class="card-tag">3. API Error States</span>
-                        <span class="priority-pill">⭐⭐⭐ Priority</span>
-                    </div>
-                    <h2>try / catch &amp; Status Validation</h2>
-                </div>
-                <p class="card-desc">Production web apps verify <code>response.ok</code> and catch network errors to render graceful error fallbacks instead of crashing.</p>
-                
-                <div class="card-body">
-                    <label>Test Error Handling Flow:</label>
-                    <div class="btn-group">
-                        <button class="btn-danger" onclick="handleTriggerApiError()">Call Invalid 404 Endpoint</button>
-                    </div>
+  useEffect(() => {
+    console.log(`Component updated! New count: ${count}`);
+    return () => console.log("Cleanup before next effect");
+  }, [count]);
 
-                    <label style="margin-top: 8px;">Error Boundary Output:</label>
-                    <div class="data-box" id="api-error-output">Click the button above to simulate error handling...</div>
-
-                    <div class="result-box chips-wrap" id="api-error-chips">
-                        <span class="step-chip">Resilience: try / catch block</span>
-                    </div>
-                </div>
-
-                <div class="code-preview">
-<pre><code>try {
-  const res = await fetch("/invalid-endpoint");
-  if (!res.ok) throw new Error("404 Not Found");
-} catch (err) {
-  showErrorBanner(err.message);
+  return (
+    &lt;div className="card"&gt;
+      &lt;h3&gt;{title}&lt;/h3&gt;
+      &lt;span&gt;{badgeText}&lt;/span&gt;
+      &lt;button onClick={() =&gt; setCount(prev =&gt; prev + 1)}&gt;Count: {count}&lt;/button&gt;
+    &lt;/div&gt;
+  );
 }</code></pre>
                 </div>
             </section>
 
-            <!-- Card 4: SPA Client-Side Routing -->
-            <section class="card" id="card-spa-router">
+            <!-- Card 3: React Router v6 Interactive Simulator -->
+            <section class="card" id="card-router" style="grid-column: 1 / -1;">
                 <div class="card-header">
                     <div class="card-header-row">
-                        <span class="card-tag">4. SPA Architecture</span>
-                        <span class="priority-pill">⭐⭐⭐ Priority</span>
+                        <span class="card-tag">3. React Router v6 Navigation</span>
+                        <span class="priority-pill">⭐⭐⭐ SPA Architecture</span>
                     </div>
-                    <h2>Client-Side Hash Routing</h2>
+                    <h2>Client-Side Routing, Dynamic Params &amp; Programmatic Navigation</h2>
                 </div>
-                <p class="card-desc">Single Page Applications swap views directly in memory without browser page reloads using the <code>hashchange</code> event.</p>
-                
-                <div class="card-body">
-                    <label>SPA Navigation Bar:</label>
-                    <div class="spa-navbar">
-                        <button class="spa-nav-btn active" data-hash="#home" onclick="navigateSpa('#home')">Home</button>
-                        <button class="spa-nav-btn" data-hash="#products" onclick="navigateSpa('#products')">Products</button>
-                        <button class="spa-nav-btn" data-hash="#about" onclick="navigateSpa('#about')">About</button>
-                        <button class="spa-nav-btn" data-hash="#contact" onclick="navigateSpa('#contact')">Contact</button>
+                <p class="card-desc">
+                    <strong>React Router</strong> is the standard routing library for React. It enables client-side navigation between different views without full-page reloads, providing dynamic URL parameters (<code>useParams</code>), imperative redirects (<code>useNavigate</code>), and nested route layouts (<code>&lt;Outlet /&gt;</code>).
+                </p>
+
+                <!-- Mock Browser Container -->
+                <div class="mock-browser">
+                    <!-- Browser Chrome Toolbar -->
+                    <div class="browser-toolbar">
+                        <div class="browser-controls">
+                            <button type="button" class="browser-nav-btn" title="Back" onclick="routerGoBack()">←</button>
+                            <button type="button" class="browser-nav-btn" title="Forward" onclick="routerGoForward()">→</button>
+                            <button type="button" class="browser-nav-btn" title="Reload View" onclick="routerRefresh()">↻</button>
+                        </div>
+                        <div class="browser-url-bar">
+                            <span class="url-lock-icon">🔒</span>
+                            <span class="url-host">https://harish-frontend.app</span>
+                            <input type="text" id="browser-url-input" value="/" readonly>
+                        </div>
+                        <div class="browser-tag">React Router v6 Simulator</div>
                     </div>
 
-                    <label>Dynamic View Container (Zero Reload):</label>
-                    <div class="spa-view-canvas" id="spa-view-canvas">Loading view...</div>
+                    <!-- React Router Navigation Bar (NavLink Simulation) -->
+                    <div class="router-navbar">
+                        <button type="button" class="router-nav-link active" data-path="/" onclick="navigateToRoute('/')">🏠 Home (/)</button>
+                        <button type="button" class="router-nav-link" data-path="/about" onclick="navigateToRoute('/about')">📖 About (/about)</button>
+                        <button type="button" class="router-nav-link" data-path="/courses" onclick="navigateToRoute('/courses')">🎓 Courses (/courses)</button>
+                        <button type="button" class="router-nav-link" data-path="/courses/react-mastery" onclick="navigateToRoute('/courses/react-mastery')">⚡ Dynamic Param (/courses/:id)</button>
+                        <button type="button" class="router-nav-link" data-path="/dashboard" onclick="navigateToRoute('/dashboard')">📊 Dashboard (/dashboard)</button>
+                        <button type="button" class="router-nav-link btn-link-danger" data-path="/non-existent-page" onclick="navigateToRoute('/non-existent-page')">❌ 404 Catch-All (*)</button>
+                    </div>
 
-                    <div class="result-box chips-wrap" id="spa-router-chips" style="margin-top: 12px;">
-                        <span class="step-chip">Hash: #home</span>
-                        <span class="step-chip" style="color: #6ee7b7;">Page Reloads: 0 ⚡</span>
+                    <!-- Active Route Viewport -->
+                    <div class="router-viewport" id="router-viewport">
+                        <!-- Populated by JS Router Engine -->
+                    </div>
+
+                    <!-- Router Hooks Inspector Box -->
+                    <div class="router-inspector">
+                        <div class="inspector-item">
+                            <span class="inspector-label">Active Path (useLocation):</span>
+                            <code class="inspector-code" id="inspector-path">/</code>
+                        </div>
+                        <div class="inspector-item">
+                            <span class="inspector-label">Extracted Params (useParams):</span>
+                            <code class="inspector-code" id="inspector-params">{ }</code>
+                        </div>
+                        <div class="inspector-item">
+                            <span class="inspector-label">Page Reloads Count:</span>
+                            <span class="step-chip" style="color: #6ee7b7; border-color: rgba(16, 185, 129, 0.4);">0 Reloads (Instant SPA) ⚡</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="code-preview">
-<pre><code>function router() {
-  const hash = window.location.hash || "#home";
-  container.innerHTML = routes[hash];
+                <!-- React Router Code Specification Preview -->
+                <div class="code-preview" style="margin-top: 16px;">
+<pre><code>import { BrowserRouter, Routes, Route, Link, NavLink, useParams, useNavigate } from 'react-router-dom';
+
+function App() {
+  return (
+    &lt;BrowserRouter&gt;
+      &lt;nav&gt;
+        &lt;NavLink to="/" className={({ isActive }) =&gt; isActive ? "active" : ""}&gt;Home&lt;/NavLink&gt;
+        &lt;NavLink to="/courses"&gt;Courses&lt;/NavLink&gt;
+      &lt;/nav&gt;
+
+      &lt;Routes&gt;
+        &lt;Route path="/" element={&lt;Home /&gt;} /&gt;
+        &lt;Route path="/courses" element={&lt;CourseList /&gt;} /&gt;
+        &lt;Route path="/courses/:courseId" element={&lt;CourseDetails /&gt;} /&gt;
+        &lt;Route path="/dashboard" element={&lt;Dashboard /&gt;} /&gt;
+        &lt;Route path="*" element={&lt;NotFound404 /&gt;} /&gt;
+      &lt;/Routes&gt;
+    &lt;/BrowserRouter&gt;
+  );
 }
-window.addEventListener("hashchange", router);</code></pre>
+
+// Dynamic Parameter Extraction Hook:
+function CourseDetails() {
+  const { courseId } = useParams();
+  const navigate = useNavigate();
+  return (
+    &lt;div&gt;
+      &lt;h2&gt;Course: {courseId}&lt;/h2&gt;
+      &lt;button onClick={() =&gt; navigate('/courses')}&gt;Go Back&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
                 </div>
             </section>
 
-            <!-- Card 5: SPA vs MPA Architecture -->
-            <section class="card" id="card-architecture" style="grid-column: 1 / -1;">
+            <!-- Card 4: 🌟 The 30-Day Frontend Mastery Atlas (Complete Capstone Glimpse) -->
+            <section class="card" id="card-atlas" style="grid-column: 1 / -1;">
                 <div class="card-header">
                     <div class="card-header-row">
-                        <span class="card-tag">5. Architectural Overview</span>
-                        <span class="priority-pill">⭐⭐⭐ Priority</span>
+                        <span class="card-tag">4. Full Frontend Capstone Glimpse</span>
+                        <span class="priority-pill" style="color: #67e8f9; background: rgba(6, 182, 212, 0.15);">🌟 All 30 Days Summary</span>
                     </div>
-                    <h2>Single Page Application (SPA) vs Multi-Page Application (MPA)</h2>
+                    <h2>The Complete 30-Day Frontend Developer Mastery Atlas</h2>
                 </div>
-                <p class="card-desc">How combining Client-Side Routing and REST APIs revolutionizes the modern web experience.</p>
-                
-                <div class="card-body">
-                    <div class="input-row" style="flex-wrap: wrap;">
-                        <div class="input-col" style="min-width: 220px; background: rgba(6, 182, 212, 0.08); padding: 12px; border-radius: 8px; border: 1px solid rgba(6, 182, 212, 0.2);">
-                            <strong style="color: #06b6d4;">🚀 SPA (Single Page Application)</strong>
-                            <p style="font-size: 0.85rem; color: #d1d5db; margin-top: 6px;">1 HTML file is served initially. Navigation updates the DOM via JavaScript. Only raw JSON is transferred across the wire via APIs.</p>
-                            <span class="step-chip" style="margin-top: 8px;">Zero Page Reloads</span>
-                        </div>
-                        <div class="input-col" style="min-width: 220px; background: rgba(255, 255, 255, 0.03); padding: 12px; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.08);">
-                            <strong style="color: #9ca3af;">📄 MPA (Multi-Page Application)</strong>
-                            <p style="font-size: 0.85rem; color: #9ca3af; margin-top: 6px;">Every link click makes an HTTP request to the server, which renders and sends back a complete new HTML page, resulting in page flashes.</p>
-                            <span class="step-chip" style="margin-top: 8px; border-color: rgba(255,255,255,0.2); color: #9ca3af;">Full Reload Each Link</span>
-                        </div>
+                <p class="card-desc">
+                    A panoramic overview of every essential skill, discipline, and milestone across the 30-Day Frontend journey — crafted to give every developer, student, and recruiter an instant, comprehensive roadmap of modern frontend engineering.
+                </p>
+
+                <!-- Atlas Filter Tabs & Search Bar -->
+                <div class="atlas-controls">
+                    <div class="atlas-tabs" role="tablist">
+                        <button type="button" class="atlas-tab-btn active" onclick="filterAtlas('all', this)">All Pillars (Days 1–30)</button>
+                        <button type="button" class="atlas-tab-btn" onclick="filterAtlas('html', this)">1. HTML5 Semantics</button>
+                        <button type="button" class="atlas-tab-btn" onclick="filterAtlas('css', this)">2. CSS3 &amp; Layouts</button>
+                        <button type="button" class="atlas-tab-btn" onclick="filterAtlas('js', this)">3. Modern JavaScript (ES6+)</button>
+                        <button type="button" class="atlas-tab-btn" onclick="filterAtlas('async', this)">4. Async &amp; APIs</button>
+                        <button type="button" class="atlas-tab-btn" onclick="filterAtlas('react', this)">5. React Ecosystem</button>
+                    </div>
+
+                    <div class="atlas-search-wrap">
+                        <input type="text" id="atlas-search-input" placeholder="🔍 Search any topic (e.g., flexbox, closure, promise, router, virtual dom)..." oninput="searchAtlasTopics()">
                     </div>
                 </div>
 
-                <div class="code-preview">
-<pre><code>// The Modern Web Flow:
-User Action ➔ Client-Side Router ➔ fetch(API) ➔ Update DOM in-place</code></pre>
+                <!-- Dynamic Topic Grid -->
+                <div class="topic-grid" id="topic-grid-container">
+                    <!-- Populated dynamically via JS with comprehensive cards -->
+                </div>
+            </section>
+
+            <!-- Card 5: Frontend Interview & Production Architecture Quick Reference -->
+            <section class="card" id="card-interview" style="grid-column: 1 / -1;">
+                <div class="card-header">
+                    <div class="card-header-row">
+                        <span class="card-tag">5. Top Interview Questions</span>
+                        <span class="priority-pill" style="color: #f472b6; background: rgba(244, 114, 182, 0.15);">🎯 High-Frequency Prep</span>
+                    </div>
+                    <h2>Essential Frontend Interview Questions &amp; Concept Explanations</h2>
+                </div>
+                <p class="card-desc">
+                    Direct, high-impact technical explanations for the top 8 questions asked in modern frontend engineering interviews. Click any question to reveal concise, production-grade answers.
+                </p>
+
+                <div class="interview-accordion" id="interview-accordion">
+                    <!-- Populated by JS -->
                 </div>
             </section>
 
         </main>
 
-        <!-- Footer -->
+        <!-- Grand Finale Footer -->
         <footer class="footer">
-            <p>Day 29 of 100 Days Frontend • Built by <a href="https://github.com/harish-0987" target="_blank" rel="noopener">Harish</a></p>
-            <p><a href="https://github.com/harish-0987/DAY-29-OF-FRONTEND-" target="_blank" rel="noopener" class="repo-link">View on GitHub ↗</a></p>
+            <div class="finale-celebration">
+                <span class="finale-icon">🎉</span>
+                <h3>Congratulations on Completing the 30-Day Frontend Series!</h3>
+                <p>30 Days of consistent coding, deep architectural understanding, and hands-on projects.</p>
+            </div>
+            <p>Day 30 of 100 Days Frontend • Authored &amp; Maintained by <a href="https://github.com/harish-0987" target="_blank" rel="noopener">Harish (@harish-0987)</a></p>
+            <p><a href="https://github.com/harish-0987/DAY-30-OF-FRONTEND-" target="_blank" rel="noopener" class="repo-link">View Repository on GitHub: harish-0987/DAY-30-OF-FRONTEND- ↗</a></p>
         </footer>
     </div>
 
